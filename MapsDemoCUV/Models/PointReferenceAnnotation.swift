@@ -16,7 +16,6 @@ class PointReferenceAnnotation: NSObject, MKAnnotation {
     //------------------------------------
     
     var title: String?
-    var subtitle: String?
     var coordinate: CLLocationCoordinate2D
     
     //------------------------------------

@@ -32,12 +32,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         mapView.delegate = self
-        mapView.isRotateEnabled  = false
         mapView.showsUserLocation = true
         mapView.showsScale = true
         
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
         
         // Check for Location Services
         if CLLocationManager.locationServicesEnabled() {
@@ -51,10 +49,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             mapView.setRegion(viewRegion, animated: false)
         }
         
-        
         // Long Press GestureRecognizer
         let tapGesture = UITapGestureRecognizer(target: self,
-                                                  action: #selector(addPoint(gestureRecognizer:)))
+                                                action: #selector(addPoint(gestureRecognizer:)))
         mapView.addGestureRecognizer(tapGesture)
         
     }
@@ -74,6 +71,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         mapView.addAnnotation(annotation)
     }
     
+    //------------------------------------
+    // MARK: - Route Painting
+    //------------------------------------
+    
     public func calculateRoutesIn(_ annotations: [PointReferenceAnnotation]) {
         let points = annotations.map { $0.coordinate }
         
@@ -91,7 +92,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         routeGroup.notify(queue: .main) { [weak self] in
             self?.paintRouteForArray(routes)
         }
-        
     }
     
     private func showRouteOnMap(fromCoordinate: CLLocationCoordinate2D, toCoordinate: CLLocationCoordinate2D, completionHandler: @escaping (MKRoute) -> Void) {
